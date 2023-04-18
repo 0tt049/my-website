@@ -1,4 +1,140 @@
-baseURL = 'http://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'ananke'
+baseURL = "https://wwww.otaviocoelho.com"
+languageCode = "en-us"
+title = "Otavio Coelho's Website"
+theme = "terminalcv"
+[params]
+description = "Otavio Coelho's Website"
+prompt = "guest@otaviocoelho"
+promptColor = "green"
+promptSimbols = "$"
+promptSimbolsColor = "gree"
+greeting = """
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗██╗██╗██╗
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝██║██║██║
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗  ██║██║██║
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  ╚═╝╚═╝╚═╝
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗██╗██╗██╗
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝╚═╝╚═╝
+
+
+Type 'help' for a list of available commands
+"""
+
+  [params.whois]
+  name = "Otavio Coelho"
+  profession = "Fullstack Developer"
+  location = "SP, Brazil"
+  email = "otavio.gmcoelho@gmail.com"
+  homelink = "https://www.otaviocoelho.com"
+  description = """
+Problem-solver with a diverse background in architecture, product design and manufacturing. Recently transitioned to software development, completing an intensive bootcamp, at Le Wagon. Seeking a Full Stack Web Developer role to apply my skills and learn from experienced colleagues.
+"""
+
+  [[params.social]]
+  name = "Github"
+  url = "          https://github.com/0tt049"
+
+  [[params.social]]
+  name = "LinkedIn"
+  url = "        https://www.linkedin/in/otavio-coelho"
+
+  [[params.social]]
+  name = "Instagram"
+  url = "         https://www.instagram.com/_otavio_coelho"
+
+  [[params.work]]
+  jobTitle = "Craftsman, Designer, Manager"
+  color = "gray"
+  company = "Marcenaria Otavio Coelho"
+  date = "Feb 2017 – Nov 2022"
+  description = """
+  - Trained several assistants and helped them develop their craftsmanship and attention to detail. While delivering more than 500 finished products to multiple clients.
+  - Designed several pieces of furniture and collaborated with other designers on a myriad of art objects acclaimed by the art press.
+  - Maintained steady revenue throughout 2020's pandemic, keeping delivery dates on schedule and handling multiple supply shortages.
+  """
+  [[params.work]]
+  jobTitle = "Visual Artist"
+  color = "gray"
+  date = "Jul 2014 – Feb 2017"
+  company = "Freelance"
+  description = """
+  - Participated in the production of more than 50 published books.
+  - Collaborated with professionals from different fields across the publishing industry.
+  """
+  [[params.work]]
+  jobTitle = "Lead Architect"
+  color = "gray"
+  company = "São Paulo Criação"
+  date = "Jul 2009 – Jul 2014"
+  description = """
+  - Led a team of junior architects, integrating deliveries from multiple fields.
+  - Designed award winning furniture earning licensing contracts with a major high-end furniture retailer.
+  """
+
+  [[params.education]]
+  courseName = "Le Wagon | Computer Programming"
+  date = "Jan 2023 – Mar 2023"
+  description = """
+  - Attended Le Wagon São Paulo (Batch #1112). 9-week fulltime intensive coding bootcamp learning HTML/CSS, JavaScript, SQL, git, and Rails.
+  - Designed, and shipped to production a marketplace for developers and a Ruby Documentation and Class Browser called Murdoc.
+  """
+
+  [[params.education]]
+  courseName = "University of São Paulo | MBA of Manufacturing"
+  date = "Feb 2014 – Feb 2016"
+
+  [[params.education]]
+  courseName = "University of São Paulo | Bachelor of Architecture"
+  date = "Feb 2005 – Feb 2011"
+
+  [[params.skills]]
+  name = "Ruby"
+  percentage = 70
+
+  [[params.skills]]
+  name = "Typescript"
+  percentage = 50
+
+  [[params.skills]]
+  name = "Python"
+  percentage = 60
+
+  [[params.skills]]
+  name = "C"
+  percentage = 60
+
+  [[params.skills]]
+  name = "SQL"
+  percentage = 70
+
+  [[params.skills]]
+  name = "Ruby on Rails"
+  percentage = 70
+
+  [[params.skills]]
+  name = "React"
+  percentage = 50
+
+  [[params.skills]]
+  name = "Three.js"
+  percentage = 50
+
+  [[params.skills]]
+  name = "Linux"
+  percentage = 70
+
+  [[params.skills]]
+  name = "GC/AWS"
+  percentage = 50
+
+  [[params.skills]]
+  name = "Figma"
+  percentage = 60
+
+  [[params.skills]]
+  name = "Blender"
+  percentage = 70
+
+  [[params.skills]]
+  name = "Rhino 3D"
+  percentage = 80
