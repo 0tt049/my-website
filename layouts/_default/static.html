@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Otavio's Design Portfolio</title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="English" />
+    <style type="text/css" media="screen">
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;500&display=swap");
+
+        @media screen and (max-width: 48em) {
+            .nav-items li {
+                font-size: 0.2rem;
+                margin-block: 0.5rem;
+            }
+
+            #banner {
+                flex-direction: column;
+                align-items: left;
+                gap: 2rem;
+            }
+
+            #banner .name {
+                font-size: 2rem;
+            }
+
+            #banner .desc {
+                font-size: 1rem;
+            }
+
+            #banner .btn {
+                height: 2rem;
+                width: 5rem;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Roboto Mono", monospace;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            background-color: #000;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-block: 1.5rem;
+        }
+
+        .nav-items li {
+            margin-inline: 1rem;
+        }
+
+        .nav-items li a {
+            color: #aaa;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .nav-items li a:hover {
+            color: #aaa;
+        }
+
+        #banner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80vw;
+            margin-inline: auto;
+            margin-top: 6rem;
+            gap: 5rem;
+        }
+
+        #banner .banner-img {
+            border: 0.1rem solid #aaa;
+            height: 23rem;
+        }
+
+        #banner .name {
+            font-size: 3rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-block: 1rem;
+            text-transform: uppercase;
+        }
+
+        #banner .desc {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #aaa;
+            margin-block: 1rem;
+        }
+
+        #banner .btn,
+        #banner a {
+            color: #000;
+            background-color: #aaa;
+            height: 2.5rem;
+            width: 7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #banner .btn:hover,
+        #banner a:hover {
+            background-color: #2f3640;
+        }
+
+        #projects-section {
+            flex-direction: column;
+            width: 80vw;
+            margin-inline: auto;
+            margin-top: 6rem;
+        }
+
+        #projects-section .name {
+            font-size: 3rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-block: 1rem;
+            text-transform: uppercase;
+        }
+
+        .card {
+            color: #aaa;
+            font-weight: 300;
+            padding: 3rem;
+            line-height: 2rem;
+            margin-block: 1.5rem;
+            min-height: 30vh;
+            border: 0.1rem solid #aaa;
+        }
+
+        .card h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+        }
+
+        .card .prj-link {
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .card .prj-link:hover {
+            color: #aaa;
+        }
+
+        #contact-section {
+            flex-direction: column;
+            width: 80vw;
+            margin-inline: auto;
+            margin-top: 6rem;
+        }
+
+        #contact-section .name {
+            font-size: 3rem;
+            font-weight: 500;
+            color: #aaa;
+            margin-block: 1rem;
+            text-transform: uppercase;
+        }
+
+        #contact-section li,
+        #contact-section a {
+            font-size: 1.5rem;
+            color: #aaa;
+        }
+
+        #contact-section li:hover,
+        #contact-section a:hover {
+            color: #2f3640;
+        }
+
+        #contact-section ul {
+            line-height: 3rem;
+        }
+
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-block: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
+            align-items: start;
+        }
+
+        .grid img {
+            border: 1px solid #aaa;
+            max-width: 100%;
+        }
+
+        /*# sourceMappingURL=style.css.map */
+
+    </style>
+
+</head>
+
+<body>
+    <!--  nav bar section -->
+    <nav>
+        <ul class="nav-items">
+            <li><a href="index.html">Home.</a></li>
+            <li><a href="#projects-section">Design.</a></li>
+            <li><a href="#contact-section">Contact.</a></li>
+        </ul>
+    </nav>
+    <hr />
+
+    <!-- Banner section -->
+    <section id="banner">
+        <div class="left-bg">
+            <img loading="lazy" src="https://avatars.githubusercontent.com/u/19484053?v=4" class="banner-img"
+                alt="Otavio Coelho" />
+        </div>
+        <div class="right-bg">
+            <h2 class="name">Otavio Coelho</h2>
+            <p class="desc">
+                Problem-solver with a diverse background in architecture, product design, and manufacturing. I recently
+                transitioned to software development, completing an intensive bootcamp, at Le Wagon. I am seeking a Full
+                Stack Developer role to apply my skills and learn from experienced colleagues.
+            </p>
+            <div class="btn">
+                <a href="https://www.github.com/0tt049" target="_blank">Github</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects section -->
+    <section id="projects-section">
+        <h2 class="name">Design Portfolio</h2>
+
+        <div class="card">
+            <h3>Books</h3>
+            <p>I designed a ton of books along the years, mostly children books. My work on them ranged from Design
+                Project, Layout, Cover Design, and few Lettering work here and there.</p>
+            <div class="grid">
+                <a href="https://www.github.com/0tt049"><img src="https://www.otaviocoelho.com/static/img/" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+                <a href="https://www.github.com/0tt049"><img src="/pix/samples/1m.jpg" alt="Sample photo"></a>
+            </div>
+
+        </div>
+        <div class="card">
+            <h3>CSS Minifier</h3>
+            <p>Using HTML5, CSS3 and JS I made this CSS Minifier.</p>
+            <a href="https://github.com/priyankarpal/CSSMinifier" target="_blank" class="prj-link"><i
+                    class="fa-brands fa-github"></i> GitHub Link</a>
+        </div>
+        <div class="card">
+            <h3>Thea Theme</h3>
+            <p>Thea theme is a visually stunning color theme for the popular code editor, Visual Studio Code.</p>
+            <a href="https://github.com/priyankarpal/TheaTheme" class="prj-link" target="_blank"><i
+                    class="fa-brands fa-github"></i> GitHub Link</a>
+        </div>
+        <div class="card">
+            <h3>JokeHub</h3>
+            <p>Random funny jokes generator website</p>
+            <a href="https://github.com/priyankarpal/JokeHub" class="prj-link" target="_blank"><i
+                    class="fa-brands fa-github"></i> GitHub Link</a>
+        </div>
+        <div class="card">
+            <h3>Quotes Builder</h3>
+            <p>A random motivational quotes generator website</p>
+            <a href="https://github.com/priyankarpal/quotesbuilder" target="_blank" class="prj-link"><i
+                    class="fa-brands fa-github"></i> GitHub Link</a>
+        </div>
+    </section>
+
+    <!-- Contact Sections -->
+
+    <section id="contact-section">
+        <h2 class="name">Contact</h2>
+        <ul>
+            <li>
+                <a href="https://www.linkedin.com/in/otavio-coelho" target="_blank">LinkedIn</a>
+            </li>
+            <li>
+                <a href="https://www.github.com/0tt049" target="_blank">Github</a>
+            </li>
+            <li>
+                <a href="mailto:otavio.gmcoelho@gmail.com">Email</a>
+            </li>
+        </ul>
+    </section>
+</body>
+
+</html>
