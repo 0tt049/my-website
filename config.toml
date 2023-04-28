@@ -7,7 +7,7 @@ description = "Otavio Coelho's Website"
 prompt = "guest@otaviocoelho"
 promptColor = "green"
 promptSimbols = "$"
-promptSimbolsColor = "gree"
+promptSimbolsColor = "green"
 greeting = """
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗██╗██╗██╗
 ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝██║██║██║
