@@ -8,6 +8,7 @@ prompt = "guest@otaviocoelho"
 promptColor = "green"
 promptSimbols = "$"
 promptSimbolsColor = "green"
+hidesource = "true"
 greeting = """
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗██╗██╗██╗
 ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝██║██║██║
@@ -26,21 +27,26 @@ Type 'help' for a list of available commands
   location = "SP, Brazil"
   email = "otavio.gmcoelho@gmail.com"
   homelink = "https://www.otaviocoelho.com"
+
   description = """
 Problem-solver with a diverse background in architecture, product design and manufacturing. Recently transitioned to software development, completing an intensive bootcamp, at Le Wagon. Seeking a Full Stack Web Developer role to apply my skills and learn from experienced colleagues.
 """
 
   [[params.social]]
   name = "Github"
-  url = "          https://github.com/0tt049"
+  url = "             https://github.com/0tt049"
 
   [[params.social]]
   name = "LinkedIn"
-  url = "        https://www.linkedin/in/otavio-coelho"
+  url = "           https://www.linkedin/in/otavio-coelho"
 
   [[params.social]]
   name = "Instagram"
-  url = "         https://www.instagram.com/_otavio_coelho"
+  url = "          https://www.instagram.com/_otavio_coelho"
+
+  [[params.social]]
+  name = "Design Portfolio"
+  url = "   https://www.otaviocoelho.com/posts/design"
 
   [[params.work]]
   jobTitle = "Craftsman, Designer, Manager"
@@ -142,3 +148,4 @@ Problem-solver with a diverse background in architecture, product design and man
   [[params.skills]]
   name = "Hugo"
   percentage = 10
+
