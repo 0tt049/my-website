@@ -138,3 +138,7 @@ Problem-solver with a diverse background in architecture, product design and man
   [[params.skills]]
   name = "Rhino 3D"
   percentage = 80
+
+  [[params.skills]]
+  name = "Hugo"
+  percentage = 10
