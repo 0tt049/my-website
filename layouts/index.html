@@ -12,24 +12,28 @@ jQuery(document).ready(function($) {
         {{ if not .Site.Params.hideSource }} 'source' {{ end }}
     ];
 
+    function parse(val) {
+        return val ? JSON.parse(val) : '';
+    }
+
     $('body').terminal(function(command, term) {
 
     /* Functions to be called by commands */
     function whois () {
         term.echo ("");
         {{ with .Site.Params.whois }} 
-            term.echo ("[[b;grey;]Name:]\t\t\t" + {{ .name | jsonify }});
-            term.echo ("[[b;grey;]Profession:]\t\t" + {{ .profession | jsonify }});
-            term.echo ("[[b;grey;]Location:]\t\t" + {{ .location | jsonify }});
+            term.echo ("[[b;grey;]Name:]\t\t\t" + parse({{ .name | jsonify }}));
+            term.echo ("[[b;grey;]Profession:]\t\t" + parse({{ .profession | jsonify }}));
+            term.echo ("[[b;grey;]Location:]\t\t" + parse({{ .location | jsonify }}));
             {{ if .email }}
-                term.echo ("[[b;grey;]Email:]\t\t\t" + {{ .email | jsonify }});
+                term.echo ("[[b;grey;]Email:]\t\t\t" + parse({{ .email | jsonify }}));
             {{ end }}
             {{ if .homelink }}
-                term.echo ("[[b;grey;]Homepage:]\t\t" + {{ .homelink | jsonify }});
+                term.echo ("[[b;grey;]Homepage:]\t\t" + parse({{ .homelink | jsonify }}));
             {{ end }}
             {{ if .description }}
                 term.echo ("");
-                term.echo({{ .description | jsonify }});
+                term.echo(parse({{ .description | jsonify }}));
             {{ end }}
         {{ end }}
         term.echo ("");
@@ -40,13 +44,13 @@ jQuery(document).ready(function($) {
         {{ if .Site.Params.hideSocialName }}
             {{ with .Site.Params.social }}
                 {{ range . }} 
-                    term.echo({{ .url | jsonify }});
+                    term.echo(parse({{ .url | jsonify }}));
                 {{ end }}
             {{ end }}
         {{ else }}
             {{ with .Site.Params.social }}
                 {{ range . }}
-                    term.echo({{ .name | jsonify }} + ": " + {{ .url | jsonify }});
+                    term.echo(parse({{ .name | jsonify }}) + ": " + parse({{ .url | jsonify }}));
                 {{ end }}
             {{ end }}
         {{ end }}
@@ -57,13 +61,13 @@ jQuery(document).ready(function($) {
         term.echo("");
         {{ with .Site.Params.certifications }}
             {{ range . }}
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .certName | jsonify }} + "]");
-                term.echo({{ .date | jsonify }});
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .certName | jsonify }}) + "]");
+                term.echo(parse({{ .date | jsonify }}));
                 {{ if .company }}
-                    term.echo({{ .company | jsonify }});
+                    term.echo(parse({{ .company | jsonify }}));
                 {{ end }}
                 {{ if .description }}
-                    term.echo({{ .description | jsonify }});
+                    term.echo(parse({{ .description | jsonify }}));
                 {{ end }}
                 term.echo("-------------------- ");
                 term.echo("");
@@ -75,12 +79,12 @@ jQuery(document).ready(function($) {
         term.echo("");
         {{ with .Site.Params.work }}
             {{ range . }}
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .jobTitle | jsonify }} + "]");
-                term.echo({{ .company | jsonify }});
-                {{ if .location }}term.echo({{ .location | jsonify }});{{ end }}
-                term.echo({{ .date | jsonify }});
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .jobTitle | jsonify }}) + "]");
+                term.echo(parse({{ .company | jsonify }}));
+                {{ if .location }}term.echo(parse({{ .location | jsonify }}));{{ end }}
+                term.echo(parse({{ .date | jsonify }}));
                 term.echo ("");
-                term.echo({{ .description | jsonify }});
+                term.echo(parse({{ .description | jsonify }}));
                 term.echo("-------------------- ");
                 term.echo("");
             {{ end }}
@@ -91,10 +95,10 @@ jQuery(document).ready(function($) {
         term.echo("");
         {{ with .Site.Params.education }}
             {{ range . }}
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .courseName | jsonify }} + "]");
-                term.echo({{ .date | jsonify }});
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .courseName | jsonify }}) + "]");
+                term.echo(parse({{ .date | jsonify }}));
                 {{ if .description }}
-                    term.echo({{ .description | jsonify }});
+                    term.echo(parse({{ .description | jsonify }}));
                 {{ end }}
                 term.echo("-------------------- ");
                 term.echo("");
@@ -109,11 +113,11 @@ jQuery(document).ready(function($) {
                 var bar_length = Math.round({{ .percentage }} / 10);
                 var bar_filled = Array(bar_length + 1).join("&#9611;");
                 var bar_blank= Array(11 - bar_length).join("&#9617;");
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .name | jsonify }} + ":]\n" +
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
                         bar_filled + bar_blank + " " +
                         {{ .percentage }} +"%");
                 {{ if .description }}
-                    term.echo({{ .description | jsonify }});
+                    term.echo(parse({{ .description | jsonify }}));
                 {{ end }}
                 term.echo ("");
             {{ end }}
@@ -127,11 +131,11 @@ jQuery(document).ready(function($) {
                 var bar_length = Math.round({{ .percentage }} / 10);
                 var bar_filled = Array(bar_length + 1).join("&#9611;");
                 var bar_blank= Array(11 - bar_length).join("&#9617;");
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .name | jsonify }} + ":]\n" +
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
                        bar_filled + bar_blank + " " +
                        {{ .percentage }} +"%");
                 {{ if .description }}
-                    term.echo({{ .description | jsonify }});
+                    term.echo(parse({{ .description | jsonify }}));
                 {{ end }}
                 term.echo ("");
             {{ end }}
@@ -145,11 +149,11 @@ jQuery(document).ready(function($) {
                 var bar_length = Math.round({{ .percentage }} / 10);
                 var bar_filled = Array(bar_length + 1).join("&#9611;");
                 var bar_blank= Array(11 - bar_length).join("&#9617;");
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .name | jsonify }} + ":]\n" +
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
                         "" + bar_filled + bar_blank + 
                         " " + {{ .percentage }} +"%");
                 {{ if .description }}
-                    term.echo({{ .description | jsonify }});
+                    term.echo(parse({{ .description | jsonify }}));
                 {{ end }}
                 term.echo("");
             {{ end }}
@@ -160,11 +164,11 @@ jQuery(document).ready(function($) {
         term.echo("");
         {{ with .Site.Params.projects }}
             {{ range . }}
-                term.echo("[[b;" + {{ .color | default "grey" | jsonify }} + ";]" + {{ .title | jsonify }} + "]");
-                term.echo({{ .date | jsonify }});
-                {{ if .link }}term.echo({{ .link | jsonify }});{{ end }}
+                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .title | jsonify }}) + "]");
+                term.echo(parse({{ .date | jsonify }}));
+                {{ if .link }}term.echo(parse({{ .link | jsonify }}));{{ end }}
                 {{ if .description }}
-                    term.echo({{ .description | jsonify }});
+                    term.echo(parse({{ .description | jsonify }}));
                 {{ end }}
                 term.echo("-----------------------");
                 term.echo("");
@@ -174,8 +178,8 @@ jQuery(document).ready(function($) {
 
     function misc () {
         term.echo ("");
-        term.echo("[[b;" + {{ .Site.Params.misc.titleColor | default "teal" | jsonify }} + ";]" + {{ .Site.Params.misc.title | jsonify }} + "]\n");
-        term.echo("[[;" + {{ .Site.Params.misc.contentColor | default "orange" | jsonify }} + ";]" + {{ .Site.Params.misc.content | jsonify }} + "]");
+        term.echo("[[b;" + ({{ .Site.Params.misc.titleColor | jsonify }} ? parse({{ .Site.Params.misc.titleColor | jsonify }}) : "teal") + ";]" + parse({{ .Site.Params.misc.title | jsonify }}) + "]\n");
+        term.echo("[[;" + ({{ .Site.Params.misc.contentColor | jsonify }} ? parse({{ .Site.Params.misc.contentColor | jsonify }}) : "orange") + ";]" + parse({{ .Site.Params.misc.content | jsonify }}) + "]");
         term.echo ("");
     }
 
@@ -189,7 +193,7 @@ jQuery(document).ready(function($) {
                   "       |       |           \n"+
                   "       |       |           \n"+
                   "       |_______|_______    \n"+
-                  "               |       |   \n"+
+                  "               |_______|_______    \n"+
                   "               |       |   \n"+
                   " ______________|_______|   \n"+
                   "|      |       |       |   \n"+
@@ -289,7 +293,7 @@ jQuery(document).ready(function($) {
             case 'startx':
                 term.echo("loading ...")
                 loading();
-                setTimeout(function(){window.location = "{{ .Site.Params.startxLocation }}"}, 2000);
+                setTimeout(function(){window.location = parse({{ .Site.Params.startxLocation | jsonify }})}, 2000);
                 break;
             {{ end }}
             case ':(){:|:&};:':
@@ -300,7 +304,7 @@ jQuery(document).ready(function($) {
             case 'exit':
                 term.echo("terminating ... ")
                 loading();
-                setTimeout(function(){window.location = '{{ .Site.Params.exitLocation }}'}, 2000);
+                setTimeout(function(){window.location = parse({{ .Site.Params.exitLocation | jsonify }})}, 2000);
                 break;
             {{ end }}
             default:
@@ -308,8 +312,8 @@ jQuery(document).ready(function($) {
                           "please type 'help' for a list of available commands\n");
         }
     }, {
-        prompt: "[[;{{ .Site.Params.promptColor | default "green" }};]{{ .Site.Params.prompt | default "guest@otaviocoelho" }}][[;{{ .Site.Params.promptSimbolsColor | default "green" }};]{{ .Site.Params.promptSimbols | default "$" }}] ",
-        greetings: "[[b;{{ .Site.Params.greetingColor | default "white" }};]" + {{ .Site.Params.greeting | jsonify }} + "]",
+        prompt: "[[;" + ({{ .Site.Params.promptColor | jsonify }} ? parse({{ .Site.Params.promptColor | jsonify }}) : "green") + ";]" + parse({{ .Site.Params.prompt | default "guest@otaviocoelho" | jsonify }}) + "]" + "[[;" + ({{ .Site.Params.promptSimbolsColor | jsonify }} ? parse({{ .Site.Params.promptSimbolsColor | jsonify }}) : "green") + ";]" + parse({{ .Site.Params.promptSimbols | default "$" | jsonify }}) + "] ",
+        greetings: "[[b;" + ({{ .Site.Params.greetingColor | jsonify }} ? parse({{ .Site.Params.greetingColor | jsonify }}) : "white") + ";]" + parse({{ .Site.Params.greeting | jsonify }}) + "]",
         keydown: function(e, term) {
             if (animation) {
                 if (e.which == 68 && e.ctrlKey) { // CTRL+D
