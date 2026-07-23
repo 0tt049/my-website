@@ -10,6 +10,7 @@ promptColor = "green"
 promptSimbols = "$"
 promptSimbolsColor = "green"
 hidesource = "true"
+startxLocation = "https://www.linkedin.com/in/otavio-coelho"
 greeting = """
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗██╗██╗██╗
 ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝██║██║██║
@@ -124,3 +125,56 @@ Complex systems builder — Architect by training, craftsman driven by physical 
   [[params.skills]]
   name = "3D & Parametric (Blender/Rhino/Grasshopper)"
   percentage = 85
+
+  [[params.projects]]
+  title = "ONSTOQ — B2B Procurement AI Platform"
+  color = "green"
+  date = "Oct 2023 – Present"
+  link = "https://onstoq.com"
+  description = "AI-powered B2B procurement platform for construction and industrial buyers. Automated technical quotes, NCM categorization, and WhatsApp concierge GTM."
+
+  [[params.projects]]
+  title = "GenAI Image & 3D Pipelines (ComfyUI / Blender)"
+  color = "teal"
+  date = "2024"
+  description = "Automated generative AI workflows for parametric design and image generation pipelines."
+
+  [[params.projects]]
+  title = "Ruby Ray Tracer"
+  color = "yellow"
+  date = "2023"
+  link = "https://github.com/0tt049"
+  description = "Raytracer engine implemented in Ruby, adapted from C++ codebase."
+
+  [[params.languages]]
+  name = "Portuguese"
+  color = "green"
+  percentage = 100
+  description = "Native"
+
+  [[params.languages]]
+  name = "English"
+  color = "teal"
+  percentage = 90
+  description = "Fluent / Professional"
+
+  [[params.certifications]]
+  certName = "Le Wagon Web Development Bootcamp"
+  company = "Le Wagon"
+  date = "Mar 2023"
+
+  [[params.certifications]]
+  certName = "Grasshopper Essential Training (Parametric Design)"
+  company = "LinkedIn Learning"
+  date = "2022"
+
+  [params.misc]
+  commandName = "vision"
+  title = "Operational Philosophy & AI Vision"
+  titleColor = "green"
+  content = """
+  • Mentalidade de Líbero & Hands-on: Designing data architectures, prototyping generative AI pipelines, and validating tech before taking risk to engineering.
+  • Invisible AI for Real ROI: AI acting behind the scenes to remove operational friction, combining deterministic low-cost tools with complex RAG/Knowledge Graphs.
+  • Accountability & Kill Fast: Strict project criteria to preserve runway and deliver reliable, mission-critical systems.
+  """
+  contentColor = "white"
