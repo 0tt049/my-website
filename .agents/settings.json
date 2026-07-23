@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .agents/hooks/validate_brain_file.py"
+          }
+        ]
+      }
+    ]
+  }
+}
