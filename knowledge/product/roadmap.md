@@ -4,7 +4,7 @@
 
 ## Now
 <!-- Active features currently being built or measured. Link to features/<slug>.md. -->
-- **Site Audit & Refresh:** Reviewing Hugo configuration, theme, and outdated content after 2-year hiatus.
+- **[Site Audit & Refresh](./features/site-audit.md):** Ingested 2026 LinkedIn resume, updated `config.toml` to reflect Founder & CEO / Technical PM & AI Specialist role, fixed broken links.
 
 ## Next
 <!-- Scoped but not started. Big bets being framed. -->
