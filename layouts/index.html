@@ -431,7 +431,7 @@ jQuery(document).ready(function($) {
             case 'startx':
                 term.echo("loading ...")
                 loading();
-                setTimeout(function(){window.location = parse({{ .Site.Params.startxLocation | jsonify }})}, 2000);
+                setTimeout(function(){window.open(parse({{ .Site.Params.startxLocation | jsonify }}), '_blank')}, 2000);
                 break;
             {{ end }}
             case ':(){:|:&};:':
