@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ .Site.Params.description }}">
     <meta property="og:title" content="{{ $.Site.Title }}" />
+    <meta property="og:description" content="{{ .Site.Params.description }}" />
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{ $.Site.BaseURL }}" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
     <link rel="canonical" href="{{ .Permalink }}" />
     {{- partial "favicons.html" . }}
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- jQuery & Terminal JS/CSS -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script>
         if (typeof jQuery !== 'undefined' && !jQuery.isFunction) {
@@ -24,9 +31,233 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.33.2/css/jquery.terminal.min.css" rel="stylesheet"/>
 
     <style>
+        :root {
+            --term-bg: #0a0e0a;
+            --term-fg: #00ff66;
+            --term-prompt: #00ff66;
+            --term-accent: #00e5ff;
+            --term-header-bg: #111a11;
+            --term-border: #1a2e1a;
+            --term-chip-bg: rgba(0, 255, 102, 0.08);
+            --term-chip-hover: rgba(0, 255, 102, 0.22);
+            --term-chip-border: rgba(0, 255, 102, 0.3);
+            --term-glow: 0 0 12px rgba(0, 255, 102, 0.25);
+            --font-family: 'Fira Code', 'Courier New', Courier, monospace;
+        }
+
+        [data-theme="dracula"] {
+            --term-bg: #282a36;
+            --term-fg: #f8f8f2;
+            --term-prompt: #50fa7b;
+            --term-accent: #ff79c6;
+            --term-header-bg: #1e1f29;
+            --term-border: #44475a;
+            --term-chip-bg: rgba(80, 250, 123, 0.12);
+            --term-chip-hover: rgba(255, 121, 198, 0.25);
+            --term-chip-border: rgba(139, 233, 253, 0.4);
+            --term-glow: 0 0 12px rgba(80, 250, 123, 0.3);
+        }
+
+        [data-theme="amber"] {
+            --term-bg: #120a00;
+            --term-fg: #ffb000;
+            --term-prompt: #ffb000;
+            --term-accent: #ff8000;
+            --term-header-bg: #1f1200;
+            --term-border: #3d2400;
+            --term-chip-bg: rgba(255, 176, 0, 0.12);
+            --term-chip-hover: rgba(255, 176, 0, 0.28);
+            --term-chip-border: rgba(255, 176, 0, 0.4);
+            --term-glow: 0 0 12px rgba(255, 176, 0, 0.3);
+        }
+
+        [data-theme="mono"] {
+            --term-bg: #f8f9fa;
+            --term-fg: #111827;
+            --term-prompt: #2563eb;
+            --term-accent: #0284c7;
+            --term-header-bg: #e5e7eb;
+            --term-border: #d1d5db;
+            --term-chip-bg: rgba(37, 99, 235, 0.08);
+            --term-chip-hover: rgba(37, 99, 235, 0.2);
+            --term-chip-border: rgba(37, 99, 235, 0.3);
+            --term-glow: none;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             width: 100%;
-            font-size: 18px;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: var(--term-bg);
+            color: var(--term-fg);
+            font-family: var(--font-family);
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Top Header Status Bar */
+        .terminal-status-bar {
+            background-color: var(--term-header-bg);
+            border-bottom: 1px solid var(--term-border);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--term-prompt);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--term-prompt);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .status-title {
+            font-weight: 700;
+            color: var(--term-prompt);
+        }
+
+        .status-sub {
+            opacity: 0.75;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Quick Action Chips */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 16px;
+            background-color: var(--term-bg);
+            border-bottom: 1px solid var(--term-border);
+            z-index: 9;
+        }
+
+        .chip-button {
+            background: var(--term-chip-bg);
+            border: 1px solid var(--term-chip-border);
+            color: var(--term-fg);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-family: var(--font-family);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chip-button:hover {
+            background: var(--term-chip-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--term-glow);
+        }
+
+        .chip-button:active {
+            transform: translateY(0);
+        }
+
+        /* Terminal Window */
+        .terminal-container {
+            flex: 1;
+            padding: 12px 16px;
+            overflow-y: auto;
+        }
+
+        .terminal {
+            background-color: transparent !important;
+            color: var(--term-fg) !important;
+            font-family: var(--font-family) !important;
+            text-shadow: var(--term-glow);
+        }
+
+        .cmd, .terminal, .terminal-output div div {
+            color: var(--term-fg) !important;
+        }
+
+        .terminal .cmd .prompt {
+            color: var(--term-prompt) !important;
+        }
+
+        /* CRT Overlay Scanline (Subtle vintage feel) */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.15) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.6;
+        }
+
+        /* Bottom Help Shortcut Bar */
+        .terminal-footer-bar {
+            background-color: var(--term-header-bg);
+            border-top: 1px solid var(--term-border);
+            padding: 6px 16px;
+            font-size: 12px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .shortcut-key {
+            background-color: var(--term-chip-bg);
+            border: 1px solid var(--term-chip-border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--term-prompt);
+        }
+
+        @media (max-width: 600px) {
+            .status-sub { display: none; }
+            .chips-container { padding: 8px 10px; gap: 6px; }
+            .chip-button { padding: 4px 10px; font-size: 11px; }
+            .terminal-footer-bar { font-size: 11px; }
         }
     </style>
     {{ if .Site.Params.analytics.code }}

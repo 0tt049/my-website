@@ -1,10 +1,59 @@
 {{ define "body" }}
-<script> 
+<div class="crt-overlay"></div>
+
+<!-- Top Status Bar -->
+<header class="terminal-status-bar">
+    <div class="status-left">
+        <span class="status-dot"></span>
+        <span class="status-title">SYSTEM ONLINE</span>
+        <span class="status-sub">| Otavio Coelho — Founder & CEO @ ONSTOQ</span>
+    </div>
+    <div class="status-right">
+        <span class="status-sub">SÃO PAULO, BR</span>
+    </div>
+</header>
+
+<!-- Quick Action Chips -->
+<nav class="chips-container" aria-label="Terminal Quick Commands">
+    <button class="chip-button" data-cmd="whois">👤 whois</button>
+    <button class="chip-button" data-cmd="onstoq">🚀 onstoq</button>
+    <button class="chip-button" data-cmd="projects">💻 projects</button>
+    <button class="chip-button" data-cmd="vision">👁️ vision</button>
+    <button class="chip-button" data-cmd="work">💼 work</button>
+    <button class="chip-button" data-cmd="skills">⚡ skills</button>
+    <button class="chip-button" data-cmd="theme">🎨 theme</button>
+    <button class="chip-button" data-cmd="help">❓ help</button>
+    <button class="chip-button" data-cmd="clear">🧹 clear</button>
+</nav>
+
+<!-- Main Terminal Area -->
+<main class="terminal-container" id="terminal-wrapper"></main>
+
+<!-- Bottom Footer Shortcut Bar -->
+<footer class="terminal-footer-bar">
+    <div>
+        <span class="shortcut-key">TAB</span> Autocomplete &nbsp;|&nbsp; 
+        <span class="shortcut-key">↑ / ↓</span> Command History
+    </div>
+    <div>
+        Type <span class="shortcut-key">help</span> for all commands
+    </div>
+</footer>
+
+<script>
 jQuery(document).ready(function($) {
     var animation = false;
+    var currentTheme = localStorage.getItem('term_theme') || 'matrix';
+    
+    // Apply saved theme
+    if (currentTheme !== 'matrix') {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    }
+
     var availableCommands = [
-        "all", "whois", 'social', 'work', 'education',
+        "all", "whois", "onstoq", 'social', 'work', 'education',
         'skills', 'softskills', 'languages', 'projects',
+        'theme', 'clear',
         {{ if .Site.Params.certifications }} 'certifications', {{ end }}
         {{ if .Site.Params.startxLocation }} 'startx', {{ end }}
         {{ if .Site.Params.exitLocation }} 'exit', {{ end }}
@@ -16,231 +65,272 @@ jQuery(document).ready(function($) {
         return val ? JSON.parse(val) : '';
     }
 
-    $('body').terminal(function(command, term) {
+    var termInstance = $('#terminal-wrapper').terminal(function(command, term) {
 
-    /* Functions to be called by commands */
-    function whois () {
-        term.echo ("");
-        {{ with .Site.Params.whois }} 
-            term.echo ("[[b;grey;]Name:]\t\t\t" + parse({{ .name | jsonify }}));
-            term.echo ("[[b;grey;]Profession:]\t\t" + parse({{ .profession | jsonify }}));
-            term.echo ("[[b;grey;]Location:]\t\t" + parse({{ .location | jsonify }}));
-            {{ if .email }}
-                term.echo ("[[b;grey;]Email:]\t\t\t" + parse({{ .email | jsonify }}));
-            {{ end }}
-            {{ if .homelink }}
-                term.echo ("[[b;grey;]Homepage:]\t\t" + parse({{ .homelink | jsonify }}));
-            {{ end }}
-            {{ if .description }}
-                term.echo ("");
-                term.echo(parse({{ .description | jsonify }}));
-            {{ end }}
-        {{ end }}
-        term.echo ("");
-    }
+        // Helper function for typing roll-up effect
+        function rolledEcho(text, options) {
+            var opts = Object.assign({ typing: true, delay: 8 }, options || {});
+            term.echo(text, opts);
+        }
 
-    function social () {
-        term.echo("");
-        {{ if .Site.Params.hideSocialName }}
-            {{ with .Site.Params.social }}
-                {{ range . }} 
-                    term.echo(parse({{ .url | jsonify }}));
+        /* Command Functions */
+        function whois () {
+            term.echo ("");
+            {{ with .Site.Params.whois }} 
+                rolledEcho ("[[b;grey;]Name:]\t\t\t" + parse({{ .name | jsonify }}));
+                rolledEcho ("[[b;grey;]Profession:]\t\t" + parse({{ .profession | jsonify }}));
+                rolledEcho ("[[b;grey;]Location:]\t\t" + parse({{ .location | jsonify }}));
+                {{ if .email }}
+                    rolledEcho ("[[b;grey;]Email:]\t\t\t" + parse({{ .email | jsonify }}));
+                {{ end }}
+                {{ if .homelink }}
+                    rolledEcho ("[[b;grey;]Homepage:]\t\t" + parse({{ .homelink | jsonify }}));
+                {{ end }}
+                {{ if .description }}
+                    term.echo ("");
+                    rolledEcho(parse({{ .description | jsonify }}));
                 {{ end }}
             {{ end }}
-        {{ else }}
-            {{ with .Site.Params.social }}
+            term.echo ("");
+        }
+
+        function onstoq () {
+            term.echo ("");
+            rolledEcho ("[[b;cyan;]🚀 ONSTOQ — B2B Procurement AI Platform]");
+            rolledEcho ("[[b;grey;]Role:]\t\tFounder & CEO");
+            rolledEcho ("[[b;grey;]Mission:]\tModernizing B2B procurement in construction & industrial supply chains.");
+            rolledEcho ("[[b;grey;]Technology:]\tLLM technical quotes, NCM AI classification, WhatsApp concierge GTM.");
+            rolledEcho ("[[b;grey;]Backing:]\tRaised $125,000 from Antler Brasil.");
+            rolledEcho ("[[b;grey;]Website:]\thttps://onstoq.com");
+            term.echo ("");
+        }
+
+        function social () {
+            term.echo("");
+            {{ if .Site.Params.hideSocialName }}
+                {{ with .Site.Params.social }}
+                    {{ range . }} 
+                        rolledEcho(parse({{ .url | jsonify }}));
+                    {{ end }}
+                {{ end }}
+            {{ else }}
+                {{ with .Site.Params.social }}
+                    {{ range . }}
+                        rolledEcho(parse({{ .name | jsonify }}) + ": " + parse({{ .url | jsonify }}));
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+            term.echo("");
+        }
+            
+        function certifications () {
+            term.echo("");
+            {{ with .Site.Params.certifications }}
                 {{ range . }}
-                    term.echo(parse({{ .name | jsonify }}) + ": " + parse({{ .url | jsonify }}));
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .certName | jsonify }}) + "]");
+                    rolledEcho(parse({{ .date | jsonify }}));
+                    {{ if .company }}
+                        rolledEcho(parse({{ .company | jsonify }}));
+                    {{ end }}
+                    {{ if .description }}
+                        rolledEcho(parse({{ .description | jsonify }}));
+                    {{ end }}
+                    term.echo("-------------------- ");
+                    term.echo("");
                 {{ end }}
             {{ end }}
-        {{ end }}
-        term.echo("");
-    }
-	    
-    function certifications () {
-        term.echo("");
-        {{ with .Site.Params.certifications }}
-            {{ range . }}
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .certName | jsonify }}) + "]");
-                term.echo(parse({{ .date | jsonify }}));
-                {{ if .company }}
-                    term.echo(parse({{ .company | jsonify }}));
-                {{ end }}
-                {{ if .description }}
-                    term.echo(parse({{ .description | jsonify }}));
-                {{ end }}
-                term.echo("-------------------- ");
-                term.echo("");
-            {{ end }}
-        {{ end }}
-    }
-	    
-    function work () {
-        term.echo("");
-        {{ with .Site.Params.work }}
-            {{ range . }}
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .jobTitle | jsonify }}) + "]");
-                term.echo(parse({{ .company | jsonify }}));
-                {{ if .location }}term.echo(parse({{ .location | jsonify }}));{{ end }}
-                term.echo(parse({{ .date | jsonify }}));
-                term.echo ("");
-                term.echo(parse({{ .description | jsonify }}));
-                term.echo("-------------------- ");
-                term.echo("");
-            {{ end }}
-        {{ end }}
-    }
-
-    function education () {
-        term.echo("");
-        {{ with .Site.Params.education }}
-            {{ range . }}
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .courseName | jsonify }}) + "]");
-                term.echo(parse({{ .date | jsonify }}));
-                {{ if .description }}
-                    term.echo(parse({{ .description | jsonify }}));
-                {{ end }}
-                term.echo("-------------------- ");
-                term.echo("");
-            {{ end }}
-        {{ end }}
-    }
-
-    function skills () {
-        term.echo(" ");
-        {{ with .Site.Params.skills }}
-            {{ range . }}
-                var bar_length = Math.round({{ .percentage }} / 10);
-                var bar_filled = Array(bar_length + 1).join("&#9611;");
-                var bar_blank= Array(11 - bar_length).join("&#9617;");
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
-                        bar_filled + bar_blank + " " +
-                        {{ .percentage }} +"%");
-                {{ if .description }}
-                    term.echo(parse({{ .description | jsonify }}));
-                {{ end }}
-                term.echo ("");
-            {{ end }}
-        {{ end }}
-    }
-
-    function softskills () {
-        term.echo("");
-        {{ with .Site.Params.softskills }}
-            {{ range . }}
-                var bar_length = Math.round({{ .percentage }} / 10);
-                var bar_filled = Array(bar_length + 1).join("&#9611;");
-                var bar_blank= Array(11 - bar_length).join("&#9617;");
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
-                       bar_filled + bar_blank + " " +
-                       {{ .percentage }} +"%");
-                {{ if .description }}
-                    term.echo(parse({{ .description | jsonify }}));
-                {{ end }}
-                term.echo ("");
-            {{ end }}
-        {{ end }}
-    }
-      
-    function languages () {
-        term.echo("");
-        {{ with .Site.Params.languages }}
-            {{ range . }}
-                var bar_length = Math.round({{ .percentage }} / 10);
-                var bar_filled = Array(bar_length + 1).join("&#9611;");
-                var bar_blank= Array(11 - bar_length).join("&#9617;");
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
-                        "" + bar_filled + bar_blank + 
-                        " " + {{ .percentage }} +"%");
-                {{ if .description }}
-                    term.echo(parse({{ .description | jsonify }}));
-                {{ end }}
-                term.echo("");
-            {{ end }}
-        {{ end }}
-    }
-
-    function projects () {
-        term.echo("");
-        {{ with .Site.Params.projects }}
-            {{ range . }}
-                term.echo("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .title | jsonify }}) + "]");
-                term.echo(parse({{ .date | jsonify }}));
-                {{ if .link }}term.echo(parse({{ .link | jsonify }}));{{ end }}
-                {{ if .description }}
-                    term.echo(parse({{ .description | jsonify }}));
-                {{ end }}
-                term.echo("-----------------------");
-                term.echo("");
-            {{ end }}
-        {{ end }}
-    }
-
-    function misc () {
-        term.echo ("");
-        term.echo("[[b;" + ({{ .Site.Params.misc.titleColor | jsonify }} ? parse({{ .Site.Params.misc.titleColor | jsonify }}) : "teal") + ";]" + parse({{ .Site.Params.misc.title | jsonify }}) + "]\n");
-        term.echo("[[;" + ({{ .Site.Params.misc.contentColor | jsonify }} ? parse({{ .Site.Params.misc.contentColor | jsonify }}) : "orange") + ";]" + parse({{ .Site.Params.misc.content | jsonify }}) + "]");
-        term.echo ("");
-    }
-
-    function help () {
-        term.echo("\n[[b;white;]Available commands:]\n" +
-                  "\n" + availableCommands.join(' ') + '\n');
-    }
-
-    function source() {
-        term.echo("        _______            \n"+
-                  "       |       |           \n"+
-                  "       |       |           \n"+
-                  "       |_______|_______    \n"+
-                  "               |_______|_______    \n"+
-                  "               |       |   \n"+
-                  " ______________|_______|   \n"+
-                  "|      |       |       |   \n"+
-                  "|      |       |       |   \n"+
-                  "|______|_______|_______|   \n"+
-                  "[[;red;]May the source be with you]\n"+
-                  "[[;grey;]https://github.com/4s3ti/terminalcv\n");
-    }
-
-    function progress(percent, width) {
-        var size = Math.round(width*percent/100);
-        var left = '', taken = '', i;
-        for (i=size; i--;) {
-            taken += '=';
         }
-        if (taken.length > 0) {
-            taken = taken.replace(/=$/, '>');
+            
+        function work () {
+            term.echo("");
+            {{ with .Site.Params.work }}
+                {{ range . }}
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .jobTitle | jsonify }}) + "]");
+                    rolledEcho(parse({{ .company | jsonify }}));
+                    {{ if .location }}rolledEcho(parse({{ .location | jsonify }}));{{ end }}
+                    rolledEcho(parse({{ .date | jsonify }}));
+                    term.echo ("");
+                    rolledEcho(parse({{ .description | jsonify }}));
+                    term.echo("-------------------- ");
+                    term.echo("");
+                {{ end }}
+            {{ end }}
         }
-        for (i=width-size; i--;) {
-            left += ' ';
-        }
-        return '[' + taken + left + '] ' + percent + '%';
-    }
 
-    function loading () {
-        var i = 0, size = 30;
-        prompt = term.get_prompt();
-        string = progress(0, size);
-        term.set_prompt(progress);
-        animation = true;
-        (function loop() {
-            string = progress(i++, size);
-            term.set_prompt(string);
-            if (i < 100) {
-                timer = setTimeout(loop, 10);
+        function education () {
+            term.echo("");
+            {{ with .Site.Params.education }}
+                {{ range . }}
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .courseName | jsonify }}) + "]");
+                    rolledEcho(parse({{ .date | jsonify }}));
+                    {{ if .description }}
+                        rolledEcho(parse({{ .description | jsonify }}));
+                    {{ end }}
+                    term.echo("-------------------- ");
+                    term.echo("");
+                {{ end }}
+            {{ end }}
+        }
+
+        function skills () {
+            term.echo(" ");
+            {{ with .Site.Params.skills }}
+                {{ range . }}
+                    var bar_length = Math.round({{ .percentage }} / 10);
+                    var bar_filled = Array(bar_length + 1).join("&#9611;");
+                    var bar_blank= Array(11 - bar_length).join("&#9617;");
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
+                            bar_filled + bar_blank + " " +
+                            {{ .percentage }} +"%");
+                    {{ if .description }}
+                        rolledEcho(parse({{ .description | jsonify }}));
+                    {{ end }}
+                    term.echo ("");
+                {{ end }}
+            {{ end }}
+        }
+
+        function softskills () {
+            term.echo("");
+            {{ with .Site.Params.softskills }}
+                {{ range . }}
+                    var bar_length = Math.round({{ .percentage }} / 10);
+                    var bar_filled = Array(bar_length + 1).join("&#9611;");
+                    var bar_blank= Array(11 - bar_length).join("&#9617;");
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
+                           bar_filled + bar_blank + " " +
+                           {{ .percentage }} +"%");
+                    {{ if .description }}
+                        rolledEcho(parse({{ .description | jsonify }}));
+                    {{ end }}
+                    term.echo ("");
+                {{ end }}
+            {{ end }}
+        }
+          
+        function languages () {
+            term.echo("");
+            {{ with .Site.Params.languages }}
+                {{ range . }}
+                    var bar_length = Math.round({{ .percentage }} / 10);
+                    var bar_filled = Array(bar_length + 1).join("&#9611;");
+                    var bar_blank= Array(11 - bar_length).join("&#9617;");
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .name | jsonify }}) + ":]\n" +
+                            "" + bar_filled + bar_blank + 
+                            " " + {{ .percentage }} +"%");
+                    {{ if .description }}
+                        rolledEcho(parse({{ .description | jsonify }}));
+                    {{ end }}
+                    term.echo("");
+                {{ end }}
+            {{ end }}
+        }
+
+        function projects () {
+            term.echo("");
+            {{ with .Site.Params.projects }}
+                {{ range . }}
+                    rolledEcho("[[b;" + ({{ .color | jsonify }} ? parse({{ .color | jsonify }}) : "grey") + ";]" + parse({{ .title | jsonify }}) + "]");
+                    rolledEcho(parse({{ .date | jsonify }}));
+                    {{ if .link }}rolledEcho(parse({{ .link | jsonify }}));{{ end }}
+                    {{ if .description }}
+                        rolledEcho(parse({{ .description | jsonify }}));
+                    {{ end }}
+                    term.echo("-----------------------");
+                    term.echo("");
+                {{ end }}
+            {{ end }}
+        }
+
+        function misc () {
+            term.echo ("");
+            rolledEcho("[[b;" + ({{ .Site.Params.misc.titleColor | jsonify }} ? parse({{ .Site.Params.misc.titleColor | jsonify }}) : "teal") + ";]" + parse({{ .Site.Params.misc.title | jsonify }}) + "]\n");
+            rolledEcho("[[;" + ({{ .Site.Params.misc.contentColor | jsonify }} ? parse({{ .Site.Params.misc.contentColor | jsonify }}) : "orange") + ";]" + parse({{ .Site.Params.misc.content | jsonify }}) + "]");
+            term.echo ("");
+        }
+
+        function themeCommand (arg) {
+            term.echo("");
+            var validThemes = ['matrix', 'dracula', 'amber', 'mono'];
+            if (!arg) {
+                rolledEcho("[[b;cyan;]Available themes:] " + validThemes.join(' | '));
+                rolledEcho("Usage: theme <name> (e.g. 'theme dracula')");
+            } else if (validThemes.indexOf(arg.toLowerCase()) !== -1) {
+                var selected = arg.toLowerCase();
+                if (selected === 'matrix') {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', selected);
+                }
+                localStorage.setItem('term_theme', selected);
+                rolledEcho("[[b;green;]Theme switched to:] " + selected);
             } else {
-                term.echo(progress(i, size) + ' [[b;green;]OK]').set_prompt(prompt);
-                animation = false;
+                rolledEcho("[[b;red;]Unknown theme:] " + arg + ". Choose from: " + validThemes.join(', '));
             }
-        })();
-    }
+            term.echo("");
+        }
 
-        /* Functions End */
-        commands = command.split(/[ ]+/);
+        function help () {
+            rolledEcho("\n[[b;white;]Available commands:]\n" +
+                      "\n" + availableCommands.join(' ') + '\n');
+        }
+
+        function source() {
+            rolledEcho("        _______            \n"+
+                      "       |       |           \n"+
+                      "       |       |           \n"+
+                      "       |_______|_______    \n"+
+                      "               |_______|_______    \n"+
+                      "               |       |   \n"+
+                      " ______________|_______|   \n"+
+                      "|      |       |       |   \n"+
+                      "|      |       |       |   \n"+
+                      "|______|_______|_______|   \n"+
+                      "[[;red;]May the source be with you]\n"+
+                      "[[;grey;]https://github.com/4s3ti/terminalcv\n");
+        }
+
+        function progress(percent, width) {
+            var size = Math.round(width*percent/100);
+            var left = '', taken = '', i;
+            for (i=size; i--;) {
+                taken += '=';
+            }
+            if (taken.length > 0) {
+                taken = taken.replace(/=$/, '>');
+            }
+            for (i=width-size; i--;) {
+                left += ' ';
+            }
+            return '[' + taken + left + '] ' + percent + '%';
+        }
+
+        function loading () {
+            var i = 0, size = 30;
+            prompt = term.get_prompt();
+            string = progress(0, size);
+            term.set_prompt(progress);
+            animation = true;
+            (function loop() {
+                string = progress(i++, size);
+                term.set_prompt(string);
+                if (i < 100) {
+                    timer = setTimeout(loop, 10);
+                } else {
+                    term.echo(progress(i, size) + ' [[b;green;]OK]').set_prompt(prompt);
+                    animation = false;
+                }
+            })();
+        }
+
+        /* Command Switch Router */
+        commands = command.trim().split(/[ ]+/);
         switch(commands[0]) {
             case 'whois':
                 whois();
+                break;
+            case 'onstoq':
+                onstoq();
                 break;
             case 'social':
                 social();
@@ -269,11 +359,18 @@ jQuery(document).ready(function($) {
             case '{{ .Site.Params.misc.commandName | default "misc"}}':
                 misc();
                 break;
+            case 'theme':
+                themeCommand(commands[1]);
+                break;
+            case 'clear':
+                term.clear();
+                break;
             case 'help':
                 help();
                 break;
             case 'all':
                 whois();
+                onstoq();
                 social();
                 work();
                 education();
@@ -307,8 +404,10 @@ jQuery(document).ready(function($) {
                 setTimeout(function(){window.location = parse({{ .Site.Params.exitLocation | jsonify }})}, 2000);
                 break;
             {{ end }}
+            case '':
+                break;
             default:
-                term.echo("\nunknown command: " + command + "\n" +
+                rolledEcho("\nunknown command: " + command + "\n" +
                           "please type 'help' for a list of available commands\n");
         }
     }, {
@@ -327,6 +426,18 @@ jQuery(document).ready(function($) {
         },
         autocompleteMenu: true,
         completion: availableCommands
+    });
+
+    // Wire Chip Buttons
+    $('.chip-button').on('click', function(e) {
+        e.preventDefault();
+        var cmd = $(this).data('cmd');
+        if (cmd === 'clear') {
+            termInstance.clear();
+        } else {
+            termInstance.exec(cmd);
+        }
+        termInstance.focus();
     });
 });
 </script>
